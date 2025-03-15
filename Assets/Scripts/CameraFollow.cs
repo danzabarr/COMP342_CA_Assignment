@@ -129,7 +129,7 @@ transform.LookAt(targetPosition);
         //transform.Rotate(Vector3.up, mouseRotationAdjustment.x);
     }
 
-    private void OnDrawGizmos()
+    private void DontOnDrawGizmos()
     {
 Vector3 targetPosition = target.position + target.localToWorldMatrix.MultiplyVector(offset);
 

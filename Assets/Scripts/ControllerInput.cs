@@ -8,12 +8,16 @@ public class ControllerInput : MonoBehaviour
     public float speed = 3.0f;
     public float rotationSpeed = 3.0f;
 
+    public float gravity = 9.8f;
+
     private CharacterController controller;
+    private Rigidbody rb;
     private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }
@@ -33,7 +37,7 @@ public class ControllerInput : MonoBehaviour
 
         animator.SetFloat("runSpeed", move.magnitude);
         controller.Move(move * Time.deltaTime);
-
+        //rb.MovePosition(rb.position + move * Time.deltaTime);
         animator.SetFloat("vertical", vertical);
         animator.SetFloat("horizontal", horizontal);
 
@@ -48,5 +52,11 @@ public class ControllerInput : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(move), Time.deltaTime * rotationSpeed);
         }
 
+
+        controller.Move(Vector3.down * gravity * Time.deltaTime);
     }
+
+
+
+    
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PortalOcclusionVolume : MonoBehaviour
 {
     public new Collider collider;
-    public Portal[] portals;
+    public List<Portal> portals;
 
     private void Start()
     {
@@ -29,6 +30,6 @@ public class PortalOcclusionVolume : MonoBehaviour
             }
         }
 
-        portals = portalBuilder.ToArray();
+        portals = portalBuilder.ToList();
     }
 }

@@ -5,6 +5,7 @@ Shader "Unlit/GrabPassDistortion"
         _MaskTexture ("Mask texture", 2D) = "white" {}
         [Normal]_DistortionGuide("Distortion guide", 2D) = "bump" {}
         _DistortionAmount("Distortion amount", float) = 0
+        _TwistAmount("Twist amount", float) = 0
     }
     SubShader
     {
@@ -43,6 +44,7 @@ Shader "Unlit/GrabPassDistortion"
             };
 
             float _DistortionAmount;
+            float _TwistAmount;
             sampler2D _DistortionGuide;
             float4 _DistortionGuide_ST;
             sampler2D _MaskTexture;
@@ -63,7 +65,13 @@ Shader "Unlit/GrabPassDistortion"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed mask = tex2D(_MaskTexture, i.uv).x;
-                float2 distortion = UnpackNormal(tex2D(_DistortionGuide, i.distortionUV)).xy;
+                fixed2 uv = i.uv;
+                fixed2 center = fixed2(0.5, 0.5);
+                fixed dist = distance(uv.xy, center);
+                fixed angle = atan2(uv.y - 0.5, uv.x - 0.5);
+                angle += _TwistAmount * dist;
+                uv = fixed2(cos(angle), sin(angle)) * dist + fixed2(0.5, 0.5);
+                float2 distortion = UnpackNormal(tex2D(_DistortionGuide, uv)).xy;
                 distortion *= _DistortionAmount * mask * i.color.a * sin(_Time.y);
                 i.grabPassUV.xy += distortion * i.grabPassUV.z;
                 fixed4 col = tex2Dproj(_GrabTexture, i.grabPassUV);

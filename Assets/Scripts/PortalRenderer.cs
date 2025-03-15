@@ -41,6 +41,11 @@ public class PortalRenderer : MonoBehaviour
             {
                 if (!portal.ShouldRender(cameraPlanes)) continue;
                 
+                Portal closestTouchingPortal = null;
+                PortalableObjectClone portalableObjectClone = PortalableObjectClone.LocalInstance;
+                if (portalableObjectClone != null)
+                    closestTouchingPortal = portalableObjectClone.ClosestTouchingPortal;
+
                 portal.RenderViewthroughRecursive(
                     mainCamera.transform.position,
                     mainCamera.transform.rotation,
@@ -52,7 +57,8 @@ public class PortalRenderer : MonoBehaviour
                     maxRecursions,
                     noCloneMask,
                     renderCloneMask,
-                    PortalableObjectClone.LocalInstance.ClosestTouchingPortal);
+                    closestTouchingPortal
+                );
 
                 debugTotalRenderCount += renderCount;
             }

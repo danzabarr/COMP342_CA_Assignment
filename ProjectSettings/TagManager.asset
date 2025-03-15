@@ -8,14 +8,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Post Processing
   - Water
   - UI
   - Rope
   - Player Model
   - Player Model Clone
-  - 
-  - 
+  - Map
+  - Map + Game
   - 
   - 
   - 
